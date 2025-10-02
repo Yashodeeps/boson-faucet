@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Boson Token Faucet
 
-## Getting Started
+A simple Next.js application that allows users to claim Boson tokens on the Aptos blockchain. Each address can only claim tokens once.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Simple web interface with address input and claim button
+- Database tracking to prevent duplicate claims
+- Integration with Aptos blockchain using @aptos-labs/ts-sdk
+- Automatic transaction handling and confirmation
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Setup
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. **Set up environment variables:**
+   Create a `.env` file in the root directory with the following variables:
+   ```env
+   # Database
+   DATABASE_URL="postgresql://username:password@localhost:5432/boson_faucet"
 
-## Learn More
+   # Aptos Configuration
+   APTOS_PRIVATE_KEY="your_private_key_here"
+   APTOS_NETWORK="testnet"
+   APTOS_NODE_URL="https://fullnode.testnet.aptoslabs.com"
 
-To learn more about Next.js, take a look at the following resources:
+   # Boson Token Configuration
+   BOSON_TOKEN_ADDRESS="0x1::aptos_coin::AptosCoin"
+   BOSON_CLAIM_AMOUNT="10000000"
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. **Set up the database:**
+   ```bash
+   npx prisma db push
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+4. **Run the development server:**
+   ```bash
+   npm run dev
+   ```
 
-## Deploy on Vercel
+## Configuration
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **APTOS_PRIVATE_KEY**: The private key of the account that will send tokens
+- **APTOS_NETWORK**: The Aptos network to use (testnet/mainnet)
+- **BOSON_TOKEN_ADDRESS**: The address of the Boson token contract
+- **BOSON_CLAIM_AMOUNT**: Amount of tokens to send (in smallest unit, e.g., 10000000 = 10 tokens with 8 decimals)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Usage
+
+1. Open the application in your browser
+2. Enter your Aptos wallet address
+3. Click "Claim 10 BOSON Tokens"
+4. Wait for the transaction to be confirmed
+5. Check your wallet for the received tokens
+
+## Security Notes
+
+- Make sure to use a dedicated account for the faucet with limited funds
+- The private key should be kept secure and not committed to version control
+- Consider implementing rate limiting for production use
