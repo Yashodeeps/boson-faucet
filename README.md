@@ -1,6 +1,6 @@
 # Boson Token Faucet
 
-A simple Next.js application that allows users to claim Boson tokens on the Aptos blockchain. Each address can only claim tokens once.
+A simple Next.js application that allows users to claim Boson tokens on the Aptos blockchain. Each address can only claim tokens once
 
 ## Features
 
@@ -62,3 +62,5 @@ A simple Next.js application that allows users to claim Boson tokens on the Apto
 - Make sure to use a dedicated account for the faucet with limited funds
 - The private key should be kept secure and not committed to version control
 - Consider implementing rate limiting for production use
+
+
