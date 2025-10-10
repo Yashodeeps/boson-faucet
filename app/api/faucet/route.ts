@@ -60,7 +60,7 @@ export async function POST(request: NextRequest) {
       const senderAccount = Account.fromPrivateKey({ privateKey: privateKeyBytes })
       
       // Send tokens using Aptos SDK
-      const amount = process.env.BOSON_CLAIM_AMOUNT || '1000000000' // 10 BOSON tokens (with 8 decimals: 10 * 10^8)
+      const amount = process.env.BOSON_CLAIM_AMOUNT || '50000000000' // 500 BOSON tokens (with 8 decimals: 500 * 10^8)
       const coinType = (process.env.BOSON_TOKEN_ADDRESS) as `${string}::${string}::${string}`
       
       const transaction = await aptos.transferCoinTransaction({

@@ -28,7 +28,7 @@ export default function FaucetForm() {
       const data = await response.json()
 
       if (response.ok) {
-        setMessage('Success! You received 10 BOSON tokens.')
+        setMessage('Success! You received 500 BOSON tokens.')
         setTxHash(data.transactionHash)
         setAddress('')
       } else {
@@ -55,7 +55,7 @@ export default function FaucetForm() {
             Boson Faucet
           </h1>
           <p className="text-blue-100 text-sm">
-            Claim 10 BOSON tokens for testing
+            Claim 500 BOSON tokens for testing
           </p>
         </div>
 
@@ -94,7 +94,7 @@ export default function FaucetForm() {
                   Processing...
                 </span>
               ) : (
-                'Claim 10 BOSON Tokens'
+                'Claim 500 BOSON Tokens'
               )}
             </button>
           </form>

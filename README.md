@@ -29,7 +29,7 @@ A simple Next.js application that allows users to claim Boson tokens on the Apto
 
    # Boson Token Configuration
    BOSON_TOKEN_ADDRESS="0x1::aptos_coin::AptosCoin"
-   BOSON_CLAIM_AMOUNT="10000000"
+   BOSON_CLAIM_AMOUNT="50000000000"
    ```
 
 3. **Set up the database:**
@@ -47,13 +47,13 @@ A simple Next.js application that allows users to claim Boson tokens on the Apto
 - **APTOS_PRIVATE_KEY**: The private key of the account that will send tokens
 - **APTOS_NETWORK**: The Aptos network to use (testnet/mainnet)
 - **BOSON_TOKEN_ADDRESS**: The address of the Boson token contract
-- **BOSON_CLAIM_AMOUNT**: Amount of tokens to send (in smallest unit, e.g., 10000000 = 10 tokens with 8 decimals)
+- **BOSON_CLAIM_AMOUNT**: Amount of tokens to send (in smallest unit, e.g., 50000000000 = 500 tokens with 8 decimals)
 
 ## Usage
 
 1. Open the application in your browser
 2. Enter your Aptos wallet address
-3. Click "Claim 10 BOSON Tokens"
+3. Click "Claim 500 BOSON Tokens"
 4. Wait for the transaction to be confirmed
 5. Check your wallet for the received tokens
 
