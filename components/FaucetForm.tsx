@@ -28,7 +28,7 @@ export default function FaucetForm() {
       const data = await response.json()
 
       if (response.ok) {
-        setMessage('Success! You received 500 BOSON tokens.')
+        setMessage('Success! You received 500 tokens.')
         setTxHash(data.transactionHash)
         setAddress('')
       } else {
@@ -52,10 +52,10 @@ export default function FaucetForm() {
             </svg>
           </div>
           <h1 className="text-3xl font-bold text-white mb-2">
-            Boson Faucet
+            Tenjaku Faucet
           </h1>
           <p className="text-blue-100 text-sm">
-            Claim 500 BOSON tokens for testing
+            Claim 500 tokens for testing
           </p>
         </div>
 
@@ -64,7 +64,7 @@ export default function FaucetForm() {
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
               <label htmlFor="address" className="block text-sm font-semibold text-gray-700 mb-2">
-                Aptos Wallet Address
+                Solana Wallet Address
               </label>
               <div className="relative">
                 <input
@@ -72,7 +72,7 @@ export default function FaucetForm() {
                   id="address"
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
-                  placeholder="0x..."
+                  placeholder="Enter your Solana address"
                   className="w-full px-4 py-3 bg-white border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-gray-800 placeholder-gray-400 disabled:bg-gray-50 disabled:text-gray-500"
                   required
                   disabled={loading}
@@ -94,7 +94,7 @@ export default function FaucetForm() {
                   Processing...
                 </span>
               ) : (
-                'Claim 500 BOSON Tokens'
+                'Claim 500 Tokens'
               )}
             </button>
           </form>
@@ -137,7 +137,7 @@ export default function FaucetForm() {
                 <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
               </svg>
               <p className="text-sm text-blue-800">
-                Each address can only claim tokens once. Powered by Aptos blockchain.
+                Each address can only claim tokens once. Powered by Solana blockchain.
               </p>
             </div>
           </div>

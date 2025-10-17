@@ -1,22 +1,24 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { Aptos, AptosConfig, Network, Account, Ed25519PrivateKey } from '@aptos-labs/ts-sdk'
+import { Connection, PublicKey, Keypair, Transaction, sendAndConfirmTransaction } from '@solana/web3.js'
+import { getOrCreateAssociatedTokenAccount, createTransferInstruction } from '@solana/spl-token'
+import bs58 from 'bs58'
 import { prisma } from '@/lib/prisma'
 
-// Initialize Aptos client
-const config = new AptosConfig({ 
-  network: (process.env.APTOS_NETWORK as Network) || Network.TESTNET 
-})
-const aptos = new Aptos(config)
+const SOLANA_NETWORK = 'https://api.devnet.solana.com'
+const MINT_ADDRESS = 'HtnUp4FXaKC7MvpWP2N8W25rea75XspMiiw3XEixE8Jd'
 
 export async function POST(request: NextRequest) {
   try {
     const { address } = await request.json()
 
     if (!address) {
-      return NextResponse.json(
-        { error: 'Address is required' },
-        { status: 400 }
-      )
+      return NextResponse.json({ error: 'Address is required' }, { status: 400 })
+    }
+
+    try {
+      const destination = new PublicKey(address)
+    } catch (e) {
+      return NextResponse.json({ error: 'Invalid address' }, { status: 400 })
     }
 
     // Check if address has already claimed
@@ -31,17 +33,13 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Get the private key from environment
-    const privateKey = process.env.APTOS_PRIVATE_KEY
+    const privateKey = process.env.PRIVATE_KEY
     if (!privateKey) {
-      return NextResponse.json(
-        { error: 'Private key not configured' },
-        { status: 500 }
-      )
+      return NextResponse.json({ error: 'Private key not configured' }, { status: 500 })
     }
 
     // Create or update claim record
-    const claimRecord = await prisma.claimRecord.upsert({
+    await prisma.claimRecord.upsert({
       where: { address },
       update: { 
         claimed: true,
@@ -55,37 +53,50 @@ export async function POST(request: NextRequest) {
     })
 
     try {
-      // Create Account from private key
-      const privateKeyBytes = new Ed25519PrivateKey(privateKey)
-      const senderAccount = Account.fromPrivateKey({ privateKey: privateKeyBytes })
-      
-      // Send tokens using Aptos SDK
-      const amount = process.env.BOSON_CLAIM_AMOUNT || '50000000000' // 500 BOSON tokens (with 8 decimals: 500 * 10^8)
-      const coinType = (process.env.BOSON_TOKEN_ADDRESS) as `${string}::${string}::${string}`
-      
-      const transaction = await aptos.transferCoinTransaction({
-        sender: senderAccount.accountAddress,
-        recipient: address,
-        amount: BigInt(amount),
-        coinType: coinType
-      })
+      const connection = new Connection(SOLANA_NETWORK)
+      const secretKey = bs58.decode(privateKey)
 
-      const committedTransaction = await aptos.signAndSubmitTransaction({
-        signer: senderAccount,
-        transaction
-      })
+      if (secretKey.length !== 64) {
+        return NextResponse.json({ error: 'Invalid private key size. Must be a 64-byte secret key.' }, { status: 500 })
+      }
 
-      await aptos.waitForTransaction({
-        transactionHash: committedTransaction.hash
-      })
+      const signer = Keypair.fromSecretKey(secretKey)
+
+      const mint = new PublicKey(MINT_ADDRESS)
+      const destination = new PublicKey(address)
+
+      const fromTokenAccount = await getOrCreateAssociatedTokenAccount(
+        connection,
+        signer,
+        mint,
+        signer.publicKey
+      )
+
+      console.log('From Token Account:', fromTokenAccount.address.toBase58())
+
+      const toTokenAccount = await getOrCreateAssociatedTokenAccount(
+        connection,
+        signer,
+        mint,
+        destination
+      )
+
+      const transaction = new Transaction().add(
+        createTransferInstruction(
+          fromTokenAccount.address,
+          toTokenAccount.address,
+          signer.publicKey,
+          500000 // 500 tokens with 3 decimals
+        )
+      )
+
+      const signature = await sendAndConfirmTransaction(connection, transaction, [signer])
 
       return NextResponse.json({
         success: true,
         message: 'Tokens claimed successfully',
-        transactionHash: committedTransaction.hash,
-        amount: amount
+        transactionHash: signature
       })
-
     } catch (txError) {
       // If transaction fails, revert the database record
       await prisma.claimRecord.update({
@@ -97,6 +108,9 @@ export async function POST(request: NextRequest) {
       })
 
       console.error('Transaction failed:', txError)
+      if (txError instanceof Error) {
+        return NextResponse.json({ error: txError.message, name: txError.name, stack: txError.stack }, { status: 500 })
+      }
       return NextResponse.json(
         { error: 'Failed to send tokens. Please try again.' },
         { status: 500 }
@@ -105,9 +119,9 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     console.error('Faucet error:', error)
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    if (error instanceof Error) {
+      return NextResponse.json({ error: error.message, name: error.name, stack: error.stack }, { status: 500 })
+    }
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }
