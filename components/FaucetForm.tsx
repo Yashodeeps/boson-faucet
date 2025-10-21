@@ -28,7 +28,7 @@ export default function FaucetForm() {
       const data = await response.json()
 
       if (response.ok) {
-        setMessage('Success! You received 500 Bosona and 0.1 SOL.')
+        setMessage('Success! You received 500 Boson and 0.1 SOL.')
         setTxHash(data.transactionHash)
         setAddress('')
       } else {
@@ -42,22 +42,24 @@ export default function FaucetForm() {
   }
 
   return (
-    <div className="w-full max-w-lg mx-auto px-4">
-      <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
-        {/* Header */}
-        <div className="bg-gradient-to-r from-blue-600 to-indigo-700 p-8 text-center">
-          <div className="inline-block p-3 bg-white/10 rounded-full mb-3 backdrop-blur-sm">
-            <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
+    <div className="w-full max-w-6xl mx-auto px-4 relative">
+      {/* Main Form - Centered */}
+      <div className="w-full max-w-lg mx-auto">
+        <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+          {/* Header */}
+          <div className="bg-gradient-to-r from-blue-600 to-indigo-700 p-8 text-center">
+            <div className="inline-block p-3 bg-white/10 rounded-full mb-3 backdrop-blur-sm">
+              <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <h1 className="text-3xl font-bold text-white mb-2">
+              Tenjaku Faucet
+            </h1>
+            <p className="text-blue-100 text-sm">
+              Claim 500 Boson and 0.1 SOL for testing
+            </p>
           </div>
-          <h1 className="text-3xl font-bold text-white mb-2">
-            Tenjaku Faucet
-          </h1>
-          <p className="text-blue-100 text-sm">
-            Claim 500 Bosona and 0.1 SOL for testing
-          </p>
-        </div>
 
         {/* Form */}
         <div className="p-8">
@@ -143,6 +145,46 @@ export default function FaucetForm() {
           </div>
         </div>
       </div>
+
+      {/* Task List - Positioned to the right */}
+      <div className="absolute top-1/2 -translate-y-1/2 right-4 ml-24 space-y-3 max-w-xs -mr-14">
+        {/* Step 1 */}
+        <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+          <div className="flex-shrink-0 w-7 h-7 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-sm">
+            1
+          </div>
+          <div className="flex-1">
+            <h3 className="text-sm font-semibold text-gray-800">
+              Copy address from navbar
+            </h3>
+          </div>
+        </div>
+
+        {/* Step 2 */}
+        <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+          <div className="flex-shrink-0 w-7 h-7 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-sm">
+            2
+          </div>
+          <div className="flex-1">
+            <h3 className="text-sm font-semibold text-gray-800">
+              Paste your address
+            </h3>
+          </div>
+        </div>
+
+        {/* Step 3 */}
+        <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+          <div className="flex-shrink-0 w-7 h-7 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-sm">
+            3
+          </div>
+          <div className="flex-1">
+            <h3 className="text-sm font-semibold text-gray-800">
+              Claim to get 500 Boson and 0.1 SOL
+            </h3>
+          </div>
+        </div>
+      </div>
+    </div>
     </div>
   )
 }
