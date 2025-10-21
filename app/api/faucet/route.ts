@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { Connection, PublicKey, Keypair, Transaction, sendAndConfirmTransaction } from '@solana/web3.js'
+import { Connection, PublicKey, Keypair, Transaction, sendAndConfirmTransaction, SystemProgram, LAMPORTS_PER_SOL } from '@solana/web3.js'
 import { getOrCreateAssociatedTokenAccount, createTransferInstruction } from '@solana/spl-token'
 import bs58 from 'bs58'
 import { prisma } from '@/lib/prisma'
@@ -82,6 +82,11 @@ export async function POST(request: NextRequest) {
       )
 
       const transaction = new Transaction().add(
+        SystemProgram.transfer({
+          fromPubkey: signer.publicKey,
+          toPubkey: destination,
+          lamports: 0.1 * LAMPORTS_PER_SOL
+        }),
         createTransferInstruction(
           fromTokenAccount.address,
           toTokenAccount.address,
@@ -94,7 +99,7 @@ export async function POST(request: NextRequest) {
 
       return NextResponse.json({
         success: true,
-        message: 'Tokens claimed successfully',
+        message: '0.1 SOL and 500 BSON tokens claimed successfully',
         transactionHash: signature
       })
     } catch (txError) {
