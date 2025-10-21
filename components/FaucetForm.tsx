@@ -28,7 +28,7 @@ export default function FaucetForm() {
       const data = await response.json()
 
       if (response.ok) {
-        setMessage('Success! You received 500 tokens.')
+        setMessage('Success! You received 500 Bosona and 0.1 SOL.')
         setTxHash(data.transactionHash)
         setAddress('')
       } else {
@@ -55,7 +55,7 @@ export default function FaucetForm() {
             Tenjaku Faucet
           </h1>
           <p className="text-blue-100 text-sm">
-            Claim 500 tokens for testing
+            Claim 500 Bosona and 0.1 SOL for testing
           </p>
         </div>
 
