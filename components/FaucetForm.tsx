@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
 
 export default function FaucetForm() {
   const [address, setAddress] = useState('')
@@ -8,6 +9,15 @@ export default function FaucetForm() {
   const [message, setMessage] = useState('')
   const [txHash, setTxHash] = useState('')
   const [error, setError] = useState('')
+  
+  const searchParams = useSearchParams()
+
+  useEffect(() => {
+    const addressParam = searchParams.get('address')
+    if (addressParam) {
+      setAddress(addressParam)
+    }
+  }, [searchParams])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
