@@ -157,43 +157,7 @@ export default function FaucetForm() {
       </div>
 
       {/* Task List - Positioned to the right */}
-      <div className="absolute top-1/2 -translate-y-1/2 right-4 ml-24 space-y-3 max-w-xs -mr-14">
-        {/* Step 1 */}
-        <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-          <div className="flex-shrink-0 w-7 h-7 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-sm">
-            1
-          </div>
-          <div className="flex-1">
-            <h3 className="text-sm font-semibold text-gray-800">
-              Copy address from navbar
-            </h3>
-          </div>
-        </div>
-
-        {/* Step 2 */}
-        <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-          <div className="flex-shrink-0 w-7 h-7 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-sm">
-            2
-          </div>
-          <div className="flex-1">
-            <h3 className="text-sm font-semibold text-gray-800">
-              Paste your address
-            </h3>
-          </div>
-        </div>
-
-        {/* Step 3 */}
-        <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-          <div className="flex-shrink-0 w-7 h-7 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-sm">
-            3
-          </div>
-          <div className="flex-1">
-            <h3 className="text-sm font-semibold text-gray-800">
-              Claim to get 500 Boson and 0.1 SOL
-            </h3>
-          </div>
-        </div>
-      </div>
+    
     </div>
     </div>
   )
